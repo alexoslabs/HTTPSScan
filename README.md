@@ -9,7 +9,7 @@ Detect the SSL/TLS Vulnerabilities:
 
 Usage:
 
-sh httpssacn.sh [target] [ip]
+sh httpsscan.sh [target] [port]
 
 Example:
 
