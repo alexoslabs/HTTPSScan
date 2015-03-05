@@ -16,10 +16,12 @@ Example:
 sh httpsscan.sh example.com 443
 
 ------------------------------------------------------
- HTTPSScan - (1.0)
+ 
+HTTPSScan - (1.0)
  by Alexandro Silva - Alexos (http://alexos.org)
  REQUIRE: sslscan and OpenSSL
-------------------------------------------------------
+
+------------------------------------------------------ 
 
 [*] Analyzing SSL/TLS Vulnerabilities on example.com:443 ...
 
