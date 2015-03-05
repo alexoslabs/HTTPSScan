@@ -42,7 +42,6 @@ echo
 DATE=$(date +%F_%R:%S)
 TARGET=$HOST:$PORT
 LOGFILE=sslscan\_$TARGET\_$DATE.log
-ERRFILE=sslscan\_$TARGET\_$DATE.err
 
 #echo [*] Running sslscan on $HOST:$PORT...
 sslscan $HOST:$PORT | grep Accepted > $LOGFILE
@@ -69,6 +68,6 @@ cat $LOGFILE | sed '/Prefered Server Cipher(s):/,/^$/!d' | sed -r "s/\x1B\[([0-9
 echo
 
 #Remove log files
-rm *.log
+rm $LOGFILE
 echo [*] done
 echo
