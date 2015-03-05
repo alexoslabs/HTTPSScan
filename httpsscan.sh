@@ -1,3 +1,13 @@
+#!/usr/bin/env bash
+#Credits: Based on TLSSLed by  Raul Siles (www.taddong.com).
+
+# Script to test the most security flaws on a target SSL/TLS.
+# Author:  Alexandro Silva (alexos at alexos dot org)
+# Date:    03-05-2015
+# Version: 1.0
+
+VERSION=1.0
+
 echo " HTTPSScan - ($VERSION)"
 echo " by Alexandro Silva - Alexos (http://alexos.org)"
 echo " REQUIRE: sslscan and OpenSSL"
