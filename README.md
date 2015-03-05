@@ -1,7 +1,7 @@
 # HTTPSSscan
 Shell script for testing the SSL/TLS Protocols
 
-Scan the target to detect:
+Detect the SSL/TLS Vulnerabilities:
 
 * Poodle CVE-2014-3566
 * FREAK CVE-2015-0204
@@ -15,11 +15,15 @@ Example:
 
 sh httpsscan.sh example.com 443
 
-------------------------------------------------------
- HTTPSScan - (1.0)
- by Alexandro Silva - Alexos (http://alexos.org)
- REQUIRE: sslscan and OpenSSL
-------------------------------------------------------
+-------------------------------------------------
+
+HTTPSScan - (1.0)
+
+by Alexandro Silva - Alexos (http://alexos.org)
+
+REQUIRE: sslscan and OpenSSL
+
+-------------------------------------------------
 
 [*] Analyzing SSL/TLS Vulnerabilities on example.com:443 ...
 
