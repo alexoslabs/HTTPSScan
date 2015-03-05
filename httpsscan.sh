@@ -41,7 +41,7 @@ echo [*] Testing for SSLv2
 cat $LOGFILE | grep "Accepted  SSLv2"
 echo
 echo [*] Testing for Poodle CVE-2014-3566
-cat $LOGFILE |  grep -q "Accepted  SSLv3"
+cat $LOGFILE |  grep "Accepted  SSLv3"
 echo
 echo [*] Testing for FREAK CVE-2015-0204
 cat $LOGFILE | grep "EXP-"
