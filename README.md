@@ -1,4 +1,4 @@
-# HTTPSSscan
+# HTTPSScan
 Shell script for testing the SSL/TLS Protocols
 
 Detect the SSL/TLS Vulnerabilities:
