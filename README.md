@@ -18,8 +18,10 @@ sh httpsscan.sh example.com 443
 ------------------------------------------------------
  
 HTTPSScan - (1.0)
- by Alexandro Silva - Alexos (http://alexos.org)
- REQUIRE: sslscan and OpenSSL
+
+by Alexandro Silva - Alexos (http://alexos.org)
+
+REQUIRE: sslscan and OpenSSL
 
 ------------------------------------------------------ 
 
