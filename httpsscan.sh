@@ -5,9 +5,18 @@
 # Author:  Alexandro Silva (alexos at alexos dot org)
 # Date:    03-05-2015
 # Version: 1.0
+#
+# References:
+# OWASP Testing for Weak SSL/TLS Ciphers, Insufficient Transport Layer Protection 
+# https://www.owasp.org/index.php/Testing_for_Weak_SSL/TLS_Ciphers,_Insufficient_Transport_Layer_Protection_%28OTG-CRYPST-001%29
+# CVE-2014-3566
+# https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3566
+# CVE-2015-0204
+# https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-0204
 
 VERSION=1.0
-
+clear
+echo ------------------------------------------------------
 echo " HTTPSScan - ($VERSION)"
 echo " by Alexandro Silva - Alexos (http://alexos.org)"
 echo " REQUIRE: sslscan and OpenSSL"
