@@ -27,8 +27,6 @@ REQUIRE: sslscan and OpenSSL
 
 [*] Analyzing SSL/TLS Vulnerabilities on example.com:443 ...
 
-####################### (100%)
-
 Generating Report...Please wait
 
 [*] Testing for SSLv2
