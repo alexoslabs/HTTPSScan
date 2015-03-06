@@ -32,15 +32,13 @@ echo
 echo [*] Analyzing SSL/TLS Vulnerabilities on $HOST:$PORT ...
 echo
 echo Generating Report...Please wait
+sslscan $HOST:$PORT | grep Accepted > $LOGFILE
 echo
 # Run sslcan once, store the results to a log file and
 # analyze that file for all the different tests:
 DATE=$(date +%F_%R:%S)
 TARGET=$HOST:$PORT
 LOGFILE=sslscan\_$TARGET\_$DATE.log
-
-#echo [*] Running sslscan on $HOST:$PORT...
-sslscan $HOST:$PORT | grep Accepted > $LOGFILE
 
 echo [*] Testing for SSLv2
 cat $LOGFILE | grep "Accepted  SSLv2"
