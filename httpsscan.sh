@@ -54,7 +54,7 @@ echo
 echo [*] Testing for NULL cipher
 cat $LOGFILE | grep "NULL"
 echo
-echo [*] Testing for weak ciphers
+echo [*] Testing for Weak ciphers
 cat $LOGFILE | grep " 40 bits"
 
 cat $LOGFILE | grep " 56 bits"
