@@ -22,19 +22,6 @@ PORT=$2
 echo
 echo [*] Analyzing SSL/TLS Vulnerabilities on $HOST:$PORT ...
 echo
-echo -n '                           (0%)\r'
-sleep 10
-echo -n '###                       (10%)\r'
-sleep 20
-echo -n '#######                   (30%)\r'
-sleep 30
-echo -n '#############             (60%)\r'
-sleep 20
-echo -n '###################       (80%)\r'
-sleep 60
-echo -n '#######################   (100%)\r'
-echo -n '\n'
-echo
 echo Generating Report...Please wait
 echo
 # Run sslcan once, store the results to a log file and
