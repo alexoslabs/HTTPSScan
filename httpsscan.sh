@@ -4,7 +4,7 @@
 # Script to test the most security flaws on a target SSL/TLS.
 # Author:  Alexandro Silva (alexos at alexos dot org)
 # Date:    03-05-2015
-# Version: 1.0
+# Version: 1.1
 #
 # References:
 # OWASP Testing for Weak SSL/TLS Ciphers, Insufficient Transport Layer Protection 
@@ -14,7 +14,7 @@
 # CVE-2015-0204
 # https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-0204
 
-VERSION=1.0
+VERSION=1.1
 clear
 echo ------------------------------------------------------
 echo " HTTPSScan - ($VERSION)"
