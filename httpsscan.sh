@@ -13,6 +13,8 @@
 # https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3566
 # CVE-2015-0204
 # https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-0204
+# Forward Secrecy
+# http://blog.ivanristic.com/2013/06/ssl-labs-deploying-forward-secrecy.html
 
 VERSION=1.2
 
