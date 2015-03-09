@@ -28,18 +28,15 @@ fi
 
 HOST=$1
 PORT=$2
+DATE=$(date +%F_%R:%S)
+TARGET=$HOST:$PORT
+LOGFILE=sslscan\_$TARGET\_$DATE.log
 echo
 echo [*] Analyzing SSL/TLS Vulnerabilities on $HOST:$PORT ...
 echo
 echo Generating Report...Please wait
 sslscan $HOST:$PORT | grep Accepted > $LOGFILE
 echo
-# Run sslcan once, store the results to a log file and
-# analyze that file for all the different tests:
-DATE=$(date +%F_%R:%S)
-TARGET=$HOST:$PORT
-LOGFILE=sslscan\_$TARGET\_$DATE.log
-
 echo [*] Testing for SSLv2
 cat $LOGFILE | grep "Accepted  SSLv2"
 echo
@@ -60,8 +57,6 @@ echo
 echo [*] Checking preferred server ciphers
 cat $LOGFILE | sed '/Prefered Server Cipher(s):/,/^$/!d' | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"
 echo
-
 #Remove log files
 rm $LOGFILE
 echo [*] done
-echo
