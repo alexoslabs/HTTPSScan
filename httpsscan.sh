@@ -47,7 +47,7 @@ echo
 echo [*] Testing for SSLv2
 cat $LOGFILE | grep "Accepted  SSLv2"
 echo
-echo [*] Testing for Poodle CVE-2014-3566
+echo [*] Testing for POODLE CVE-2014-3566
 cat $LOGFILE | grep "Accepted  SSLv3"
 echo
 echo [*] Testing for FREAK CVE-2015-0204
@@ -56,7 +56,7 @@ echo
 echo [*] Testing for NULL cipher
 cat $LOGFILE | grep "NULL" | grep Accepted
 echo
-echo [*] Testing for weak ciphers
+echo [*] Testing for Weak Ciphers
 cat $LOGFILE | grep " 40 bits" | grep Accepted
 
 cat $LOGFILE | grep " 56 bits" | grep Accepted
@@ -66,7 +66,7 @@ cat $LOGFILE | grep "ECDHE" | grep  Accepted
 
 cat $LOGFILE | grep "DHE" | grep  Accepted
 echo
-echo [*] Checking preferred server ciphers
+echo [*] Checking Preferred Server Ciphers
 cat $LOGFILE| sed '/Prefered Server Cipher(s):/,/^$/!d' | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"
 rm $LOGFILE
 echo [*] done
