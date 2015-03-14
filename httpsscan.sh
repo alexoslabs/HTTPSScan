@@ -91,9 +91,9 @@ ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -cipher EXPORT4
 cipher=`echo "$ssl" | grep '^ *Cipher *:' | awk '{ print $3 }'`
 
 if [  "$cipher" = '' ]; then
-        echo 'Not vulnerable.  Failed to establish connectioni with 40 bits cipher.'
+        echo 'Not vulnerable. Failed to establish connection with 40 bit cipher.'
 else
-        echo "Vulnerable! Connection established using 40 bits cipher"
+        echo "Vulnerable! Connection established using 40 bit cipher"
 fi
 }
 
@@ -104,9 +104,9 @@ ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -cipher EXPORT5
 cipher=`echo "$ssl" | grep '^ *Cipher *:' | awk '{ print $3 }'`
 
 if [  "$cipher" = '' ]; then
-        echo 'Not vulnerable.  Failed to establish connection with 56 bits cipher.'
+        echo 'Not vulnerable. Failed to establish connection with 56 bit cipher.'
 else
-        echo "Vulnerable! Connection established using 56 bits cipher"
+        echo "Vulnerable! Connection established using 56 bit cipher"
 fi
 }
 
