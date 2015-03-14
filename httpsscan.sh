@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-#Credits: Based on TLSSLed by  Raul Siles (www.taddong.com).
 
 # Script to test the most security flaws on a target SSL/TLS.
 # Author:  Alexandro Silva (alexos at alexos dot org)
@@ -16,9 +15,10 @@
 # Forward Secrecy
 # http://blog.ivanristic.com/2013/06/ssl-labs-deploying-forward-secrecy.html
 
-VERSION=1.2
+VERSION=1.3
 
 clear
+
 echo ":::    ::::::::::::::::::::::::::::::::::  ::::::::  ::::::::  ::::::::     :::    ::::    ::: "
 echo ":+:    :+:    :+:        :+:    :+:    :+::+:    :+::+:    :+::+:    :+:  :+: :+:  :+:+:   :+: "
 echo "+:+    +:+    +:+        +:+    +:+    +:++:+       +:+       +:+        +:+   +:+ :+:+:+  +:+ "
@@ -36,37 +36,127 @@ fi
 HOST=$1
 PORT=$2
 TARGET=$HOST:$PORT
-LOGFILE=sslscan\_$TARGET.log
 
+function ssl2 {
+ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -ssl2 -connect "$TARGET" 2>/dev/null`"
+
+proto=`echo "$ssl" | grep '^ *Protocol *:' | awk '{ print $3 }'`
+cipher=`echo "$ssl" | grep '^ *Cipher *:' | awk '{ print $3 }'`
+
+if [ "$cipher" = '' ]; then
+        echo 'Not vulnerable.  Failed to establish SSLv2 connection.'
+else
+        echo "Vulnerable!  SSLv3 connection established using $proto/$cipher"
+fi
+}
+
+
+function poodle {
+ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -ssl3 -connect "$TARGET" 2>/dev/null`"
+
+proto=`echo "$ssl" | grep '^ *Protocol *:' | awk '{ print $3 }'`
+cipher=`echo "$ssl" | grep '^ *Cipher *:' | awk '{ print $3 }'`
+
+if [ "$cipher" = '0000'  -o  "$cipher" = '(NONE)' ]; then
+        echo 'Not vulnerable.  Failed to establish SSLv3 connection.'
+else
+        echo "Vulnerable!  SSLv3 connection established using $proto/$cipher"
+fi
+}
+
+function freak {
+ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -connect "$TARGET" -cipher EXPORT 2>/dev/null`"
+cipher=`echo "$ssl" | grep '^ *Cipher *:' | awk '{ print $3 }'`
+if [ "$cipher" = '' ]; then
+         echo 'Not vulnerable.  Failed to establish connection with an EXPORT cipher.'
+else
+         echo "Vulnerable! Connection established using $cipher"
+fi
+}
+
+function null {
+ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -connect "$TARGET" -cipher NULL 2>/dev/null`"
+cipher=`echo "$ssl" | grep '^ *Cipher *:' | awk '{ print $3 }'`
+if [ "$cipher" = '' ]; then
+         echo 'Not vulnerable.  Failed to establish connection with a NULL cipher.'
+else
+         echo "Vulnerable! Connection established using $cipher"
+fi
+}
+
+
+function weak40 {
+ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -cipher EXPORT40 -connect "$TARGET" 2>/dev/null`"
+
+cipher=`echo "$ssl" | grep '^ *Cipher *:' | awk '{ print $3 }'`
+
+if [  "$cipher" = '' ]; then
+        echo 'Not vulnerable.  Failed to establish connectioni with 40 bits cipher.'
+else
+        echo "Vulnerable! Connection established using 40 bits cipher"
+fi
+}
+
+
+function weak56 {
+ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -cipher EXPORT56 -connect "$TARGET" 2>/dev/null`"
+
+cipher=`echo "$ssl" | grep '^ *Cipher *:' | awk '{ print $3 }'`
+
+if [  "$cipher" = '' ]; then
+        echo 'Not vulnerable.  Failed to establish connection with 56 bits cipher.'
+else
+        echo "Vulnerable! Connection established using 56 bits cipher"
+fi
+}
+
+function forward {
+ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -cipher 'ECDH:DH' -connect "$TARGET" 2>/dev/null`"
+
+proto=`echo "$ssl" | grep '^ *Protocol *:' | awk '{ print $3 }'`
+cipher=`echo "$ssl" | grep '^ *Cipher *:' | awk '{ print $3 }'`
+
+if [ "$cipher" = ''  -o  "$cipher" = '(NONE)' ]; then
+        echo 'Forward Secrecy is not enabled.'
+else
+        echo "Enabled! Established using $proto/$cipher"
+fi
+}
 echo
 echo [*] Analyzing SSL/TLS Vulnerabilities on $HOST:$PORT ...
 echo
 echo Generating Report...Please wait
-sslscan $HOST:$PORT > $LOGFILE
 echo
-echo [*] Testing for SSLv2
-cat $LOGFILE | grep "Accepted  SSLv2"
+echo [*] Checking SSLv2 '(CVE-2011-1473)'
 echo
-echo [*] Testing for POODLE CVE-2014-3566
-cat $LOGFILE | grep "Accepted  SSLv3"
+ssl2
 echo
-echo [*] Testing for FREAK CVE-2015-0204
-cat $LOGFILE | grep "EXP-" | grep Accepted
+echo [*] Checking Poodle '(CVE-2014-3566)'
 echo
-echo [*] Testing for NULL cipher
-cat $LOGFILE | grep "NULL" | grep Accepted
+poodle
 echo
-echo [*] Testing for Weak Ciphers
-cat $LOGFILE | grep " 40 bits" | grep Accepted
-
-cat $LOGFILE | grep " 56 bits" | grep Accepted
+echo [*] Checking FREAK '(CVE-2015-0204)'
 echo
-echo [*] Checking for Forward Secrecy
-cat $LOGFILE | grep "ECDHE" | grep  Accepted
-
-cat $LOGFILE | grep "DHE" | grep  Accepted
+freak
 echo
-echo [*] Checking Preferred Server Ciphers
-cat $LOGFILE| sed '/Prefered Server Cipher(s):/,/^$/!d' | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"
-rm $LOGFILE
+echo [*] Checking NULL Cipher
+echo
+null
+echo
+echo [*] Checking Weak Ciphers
+echo
+weak40
+echo
+weak56
+echo
+echo [*] Checking Forward Secrecy
+echo
+forward
+echo
+#echo
+#echo [*] Checking Preferred Server Ciphers
+#sslscan $HOST:$PORT > $LOGFILE
+#cat $LOGFILE| sed '/Prefered Server Cipher(s):/,/^$/!d' | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"
+#rm $LOGFILE
 echo [*] done
+echo
