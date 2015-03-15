@@ -8,6 +8,8 @@
 # References:
 # OWASP Testing for Weak SSL/TLS Ciphers, Insufficient Transport Layer Protection 
 # https://www.owasp.org/index.php/Testing_for_Weak_SSL/TLS_Ciphers,_Insufficient_Transport_Layer_Protection_%28OTG-CRYPST-001%29
+# CVE-2011-1473
+# https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1473
 # CVE-2014-3566
 # https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3566
 # CVE-2015-0204
