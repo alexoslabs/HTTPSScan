@@ -18,6 +18,7 @@
 # http://blog.ivanristic.com/2013/06/ssl-labs-deploying-forward-secrecy.html
 # Patching SSL/TLS on Nginx and Apache Webservers
 # http://alexos.org/2014/01/configurando-a-seguranca-do-ssl-no-apache-ou-nginx/
+
 VERSION=1.3
 
 clear
