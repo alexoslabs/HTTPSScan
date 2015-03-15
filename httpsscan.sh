@@ -65,7 +65,7 @@ fi
 }
 
 function freak {
-ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -connect "$TARGET" -cipher EXPORT 2>/dev/null`"
+ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -cipher EXPORT -connect "$TARGET" 2>/dev/null`"
 cipher=`echo "$ssl" | grep '^ *Cipher *:' | awk '{ print $3 }'`
 if [ "$cipher" = '' ]; then
          echo 'Not vulnerable.  Failed to establish connection with an EXPORT cipher.'
@@ -75,7 +75,7 @@ fi
 }
 
 function null {
-ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -connect "$TARGET" -cipher NULL 2>/dev/null`"
+ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -cipher NULL -connect "$TARGET" 2>/dev/null`"
 cipher=`echo "$ssl" | grep '^ *Cipher *:' | awk '{ print $3 }'`
 if [ "$cipher" = '' ]; then
          echo 'Not vulnerable.  Failed to establish connection with a NULL cipher.'
