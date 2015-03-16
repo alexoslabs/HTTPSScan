@@ -131,29 +131,29 @@ echo [*] Analyzing SSL/TLS Vulnerabilities on $HOST:$PORT ...
 echo
 echo Generating Report...Please wait
 echo
-echo [*] Checking SSLv2 '(CVE-2011-1473)'
+echo ==> Checking SSLv2 '(CVE-2011-1473)' <==
 echo
 ssl2
 echo
-echo [*] Checking Poodle '(CVE-2014-3566)'
+echo ==> Checking Poodle '(CVE-2014-3566)' <==
 echo
 poodle
 echo
-echo [*] Checking FREAK '(CVE-2015-0204)'
+echo ==> Checking FREAK '(CVE-2015-0204)' <==
 echo
 freak
 echo
-echo [*] Checking NULL Cipher
+echo ==> Checking NULL Cipher <==
 echo
 null
 echo
-echo [*] Checking Weak Ciphers
+echo ==> Checking Weak Ciphers <==
 echo
 weak40
 echo
 weak56
 echo
-echo [*] Checking Forward Secrecy
+echo ==> Checking Forward Secrecy <==
 echo
 forward
 echo
