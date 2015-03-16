@@ -40,6 +40,8 @@ fi
 HOST=$1
 PORT=$2
 TARGET=$HOST:$PORT
+red=`tput setaf 1`
+reset=`tput sgr0`
 
 function ssl2 {
 ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -ssl2 -connect "$TARGET" 2>/dev/null`"
