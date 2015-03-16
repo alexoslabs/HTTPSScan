@@ -10,6 +10,8 @@
 # https://www.owasp.org/index.php/Testing_for_Weak_SSL/TLS_Ciphers,_Insufficient_Transport_Layer_Protection_%28OTG-CRYPST-001%29
 # CVE-2011-1473
 # https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1473
+# CVE-2013-2566
+# https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-2566
 # CVE-2014-3566
 # https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3566
 # CVE-2015-0204
@@ -19,7 +21,7 @@
 # Patching the SSL/TLS on Nginx and Apache Webservers
 # http://alexos.org/2014/01/configurando-a-seguranca-do-ssl-no-apache-ou-nginx/
 
-VERSION=1.3
+VERSION=1.4
 
 clear
 
@@ -56,6 +58,16 @@ else
 fi
 }
 
+function rc4 {
+ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -cipher RC4 -connect "$TARGET" 2>/dev/null`"
+proto=`echo "$ssl" | grep '^ *Protocol *:' | awk '{ print $3 }'`
+cipher=`echo "$ssl" | grep '^ *Cipher *:' | awk '{ print $3 }'`
+if [ "$cipher" = '' ]; then
+echo 'Not vulnerable. Failed to establish RC4 connection.'
+else
+echo "Vulnerable! Connection established using $proto/$cipher"
+fi
+}
 
 function poodle {
 ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -ssl3 -connect "$TARGET" 2>/dev/null`"
@@ -136,6 +148,10 @@ echo
 echo "${red}==> ${reset} Checking SSLv2 (CVE-2011-1473)"
 echo
 ssl2
+echo
+echo "${red}==> ${reset} Checking RC4 (CVE-2013-2566)"
+echo
+rc4
 echo
 echo "${red}==> ${reset} Checking Poodle (CVE-2014-3566)"
 echo
