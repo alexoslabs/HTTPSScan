@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Script to test the most security flaws on a target SSL/TLS.
-# Author:  Alexandro Silva (alexos at alexos dot org)
+# Author:  Alexos (alexos at alexos dot org)
 # Date:    03-05-2015
 # Version: 1.0
 #
@@ -16,7 +16,7 @@
 # https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-0204
 # Forward Secrecy
 # http://blog.ivanristic.com/2013/06/ssl-labs-deploying-forward-secrecy.html
-# Patching SSL/TLS on Nginx and Apache Webservers
+# Patching the SSL/TLS on Nginx and Apache Webservers
 # http://alexos.org/2014/01/configurando-a-seguranca-do-ssl-no-apache-ou-nginx/
 
 VERSION=1.3
