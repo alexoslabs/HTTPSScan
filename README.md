@@ -12,4 +12,4 @@ Usage:
 
 bash httpsscan.sh [target] [port]
 
-![ScreenShot](http://alexos.org/wp-content/uploads/2015/03/httpsscan.png)
+![ScreenShot](http://alexos.org/wp-content/uploads/2015/03/httpsscan2.png)
