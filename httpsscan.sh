@@ -22,7 +22,6 @@
 # http://alexos.org/2014/01/configurando-a-seguranca-do-ssl-no-apache-ou-nginx/
 
 VERSION=1.4
-
 clear
 
 echo ":::    ::::::::::::::::::::::::::::::::::  ::::::::  ::::::::  ::::::::     :::    ::::    ::: "
