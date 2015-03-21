@@ -4,6 +4,7 @@ Shell script for testing the SSL/TLS Protocols
 Detect the SSL/TLS Vulnerabilities:
 
 * SSLv2 (CVE-2011-1473)
+* TLS CRIME (CVE-2012-4929)
 * RC4 (CVE-2013-2566)
 * Poodle (CVE-2014-3566)
 * FREAK (CVE-2015-0204)
