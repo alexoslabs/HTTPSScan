@@ -10,6 +10,8 @@
 # https://www.owasp.org/index.php/Testing_for_Weak_SSL/TLS_Ciphers,_Insufficient_Transport_Layer_Protection_%28OTG-CRYPST-001%29
 # CVE-2011-1473
 # https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1473
+# CVE-2012-4929
+# https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4929
 # CVE-2013-2566
 # https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-2566
 # CVE-2014-3566
@@ -21,7 +23,7 @@
 # Patching the SSL/TLS on Nginx and Apache Webservers
 # http://alexos.org/2014/01/configurando-a-seguranca-do-ssl-no-apache-ou-nginx/
 
-VERSION=1.4
+VERSION=1.5
 clear
 
 echo ":::    ::::::::::::::::::::::::::::::::::  ::::::::  ::::::::  ::::::::     :::    ::::    ::: "
@@ -54,6 +56,17 @@ if [ "$cipher" = '' ]; then
         echo 'Not vulnerable.  Failed to establish SSLv2 connection.'
 else
         echo "Vulnerable!  SSLv2 connection established using $proto/$cipher"
+fi
+}
+
+function crime {
+ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -connect "$TARGET" 2>/dev/null`"
+compr=`echo "$ssl" |grep 'Compression: ' | awk '{ print $2 } '`
+
+if [ "$compr" = 'NONE' ]; then
+        echo 'Not vulnerable. TLS Compression is not enabled.'
+else
+        echo "Vulnerable! Connection established using $compr compression."
 fi
 }
 
@@ -147,6 +160,10 @@ echo
 echo "${red}==> ${reset} Checking SSLv2 (CVE-2011-1473)"
 echo
 ssl2
+echo
+echo "${red}==> ${reset} Checking CRIME (CVE-2012-4929)"
+echo
+crime
 echo
 echo "${red}==> ${reset} Checking RC4 (CVE-2013-2566)"
 echo
