@@ -53,7 +53,7 @@ cipher=`echo "$ssl" | grep '^ *Cipher *:' | awk '{ print $3 }'`
 if [ "$cipher" = '' ]; then
         echo 'Not vulnerable.  Failed to establish SSLv2 connection.'
 else
-        echo "Vulnerable!  SSLv3 connection established using $proto/$cipher"
+        echo "Vulnerable!  SSLv2 connection established using $proto/$cipher"
 fi
 }
 
