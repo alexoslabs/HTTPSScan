@@ -14,6 +14,8 @@
 # https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4929
 # CVE-2013-2566
 # https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-2566
+# CVE-2014-0160
+# https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-0160
 # CVE-2014-3566
 # https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3566
 # CVE-2015-0204
@@ -23,7 +25,7 @@
 # Patching the SSL/TLS on Nginx and Apache Webservers
 # http://alexos.org/2014/01/configurando-a-seguranca-do-ssl-no-apache-ou-nginx/
 
-VERSION=1.5
+VERSION=1.6
 clear
 
 echo ":::    ::::::::::::::::::::::::::::::::::  ::::::::  ::::::::  ::::::::     :::    ::::    ::: "
@@ -78,6 +80,16 @@ if [ "$cipher" = '' ]; then
 echo 'Not vulnerable. Failed to establish RC4 connection.'
 else
 echo "Vulnerable! Connection established using $proto/$cipher"
+fi
+}
+
+function heartbleed {
+ssl="`echo "QUIT"|openssl s_client -connect "$TARGET" -tlsextdebug 2>&1|grep 'server extension "heartbeat" (id=15)' || echo safe 2>/dev/null`"
+
+if [ "$ssl" = 'safe' ]; then
+        echo 'The host is not vulnerable to Heartbleed attack.'
+else
+        echo "The host is vulnerable to Heartbleed attack."
 fi
 }
 
@@ -168,6 +180,10 @@ echo
 echo "${red}==> ${reset} Checking RC4 (CVE-2013-2566)"
 echo
 rc4
+echo
+echo "${red}==> ${reset} Checking Heartbleed (CVE-2014-0160)"
+echo
+heartbleed
 echo
 echo "${red}==> ${reset} Checking Poodle (CVE-2014-3566)"
 echo
