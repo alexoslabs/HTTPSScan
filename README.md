@@ -9,6 +9,7 @@ Check for SSL/TLS Vulnerabilities:
 * Heartbleed (CVE-2014-0160) 
 * Poodle (CVE-2014-3566)
 * FREAK (CVE-2015-0204)
+* Logjam (CVE-2015-4000)
 * Weak Ciphers
 
 Usage:
