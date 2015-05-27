@@ -20,6 +20,8 @@
 # https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3566
 # CVE-2015-0204
 # https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-0204
+# CVE-2015-4000
+# https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-4000
 # Forward Secrecy
 # http://blog.ivanristic.com/2013/06/ssl-labs-deploying-forward-secrecy.html
 # Patching the SSL/TLS on Nginx and Apache Webservers
@@ -189,7 +191,7 @@ echo "${red}==> ${reset} Checking Poodle (CVE-2014-3566)"
 echo
 poodle
 echo
-echo "${red}==> ${reset} Checking FREAK (CVE-2015-0204)"
+echo "${red}==> ${reset} Checking FREAK (CVE-2015-0204)/Logjam (CVE-2015-4000)"
 echo
 freak
 echo
