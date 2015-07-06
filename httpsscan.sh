@@ -3,7 +3,7 @@
 # Script to test the most security flaws on a target SSL/TLS.
 # Author:  Alexos (alexos at alexos dot org)
 # Date:    03-05-2015
-# Version: 1.1
+# Version: 1.0
 #
 # Modified 2015-07-06 by Ryan Whitworth (me @ ryanwhitworth dot com)
 #       * Added online function to bail early if host is offline
@@ -32,7 +32,7 @@
 # Patching the SSL/TLS on Nginx and Apache Webservers
 # http://alexos.org/2014/01/configurando-a-seguranca-do-ssl-no-apache-ou-nginx/
 
-VERSION=1.6
+VERSION=1.7
 clear
 
 echo ":::    ::::::::::::::::::::::::::::::::::  ::::::::  ::::::::  ::::::::     :::    ::::    ::: "
