@@ -5,6 +5,11 @@
 # Date:    03-05-2015
 # Version: 1.0
 #
+# Modified 2015-07-06 by Ryan Whitworth (me @ ryanwhitworth dot com)
+#       * Added online function to bail early if host is offline
+#       * Removed two false positives showing for some hosts
+#       * Cygwin has no tput installed by default, so sending errors to /dev/null when not found (solution: install ncurses)
+#
 # References:
 # OWASP Testing for Weak SSL/TLS Ciphers, Insufficient Transport Layer Protection 
 # https://www.owasp.org/index.php/Testing_for_Weak_SSL/TLS_Ciphers,_Insufficient_Transport_Layer_Protection_%28OTG-CRYPST-001%29
@@ -47,8 +52,8 @@ fi
 HOST=$1
 PORT=$2
 TARGET=$HOST:$PORT
-red=`tput setaf 1`
-reset=`tput sgr0`
+red=`tput setaf 1 2>/dev/null`
+reset=`tput sgr0 2>/dev/null`
 
 function ssl2 {
 ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -ssl2 -connect "$TARGET" 2>/dev/null`"
@@ -67,7 +72,7 @@ function crime {
 ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -connect "$TARGET" 2>/dev/null`"
 compr=`echo "$ssl" |grep 'Compression: ' | awk '{ print $2 } '`
 
-if [ "$compr" = 'NONE' ]; then
+if [ "$compr" = 'NONE' ] || [ "$compr" = "" ]; then
         echo 'Not vulnerable. TLS Compression is not enabled.'
 else
         echo "Vulnerable! Connection established using $compr compression."
@@ -101,7 +106,7 @@ ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -ssl3 -connect 
 proto=`echo "$ssl" | grep '^ *Protocol *:' | awk '{ print $3 }'`
 cipher=`echo "$ssl" | grep '^ *Cipher *:' | awk '{ print $3 }'`
 
-if [ "$cipher" = '0000'  -o  "$cipher" = '(NONE)' ]; then
+if [ "$cipher" = '0000'  -o  "$cipher" = '(NONE)' ] || [ "$cipher" = "" ]; then
         echo 'Not vulnerable.  Failed to establish SSLv3 connection.'
 else
         echo "Vulnerable!  SSLv3 connection established using $proto/$cipher"
@@ -166,6 +171,16 @@ else
         echo "Enabled! Established using $proto/$cipher"
 fi
 }
+
+function online {
+ssl="`echo Q | openssl s_client -connect "$TARGET" 2>/dev/null | wc -l`"
+if [ "$ssl" -lt 5 ]; then
+        echo "Host $TARGET is unreachable.  Halting test."
+        exit 10
+fi
+}
+
+online
 echo
 echo [*] Analyzing SSL/TLS Vulnerabilities on $HOST:$PORT ...
 echo
