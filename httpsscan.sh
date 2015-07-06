@@ -3,7 +3,7 @@
 # Script to test the most security flaws on a target SSL/TLS.
 # Author:  Alexos (alexos at alexos dot org)
 # Date:    03-05-2015
-# Version: 1.0
+# Version: 1.1
 #
 # Modified 2015-07-06 by Ryan Whitworth (me @ ryanwhitworth dot com)
 #       * Added online function to bail early if host is offline
