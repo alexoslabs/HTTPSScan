@@ -15,7 +15,9 @@ Check for SSL/TLS Vulnerabilities:
 Usage:
 
 bash httpsscan.sh [target] [port] [option]
+
 Options:
+
 all, --all, a
 
 ssl2, --ssl2
