@@ -38,6 +38,6 @@ weak40, --weak40
 
 weak56, --weak56
 
-forward, --forward"
+forward, --forward
 
 ![ScreenShot](http://alexos.org/wp-content/uploads/2015/04/httpsscan5.png)
