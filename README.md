@@ -14,6 +14,20 @@ Check for SSL/TLS Vulnerabilities:
 
 Usage:
 
-bash httpsscan.sh [target] [port]
+bash httpsscan.sh [target] [port] [option]
+
+bash httpsscan --help
+
+all, --all, a
+ssl2, --ssl2
+crime, --crime
+rc4, --rc4
+heartbleed, --heartbleed
+poodle, --poodle
+freak, --freak
+null, --null
+weak40, --weak40
+weak56, --weak56
+forward, --forward"
 
 ![ScreenShot](http://alexos.org/wp-content/uploads/2015/04/httpsscan5.png)
