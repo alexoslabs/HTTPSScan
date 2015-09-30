@@ -12,6 +12,10 @@ Check for SSL/TLS Vulnerabilities:
 * Logjam (CVE-2015-4000)
 * Weak Ciphers
 
+Cygwin dependencies:
+* ncurses 
+
+
 Usage:
 
 bash httpsscan.sh [target] [port] [option]
