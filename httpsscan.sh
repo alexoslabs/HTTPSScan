@@ -37,7 +37,7 @@
 # - Help
 # - Selecionar somente uma vulnerabilidade para teste ou modo all
 #----------------------------------------------------------------------------------------------------------------------------------
-VERSION=1.8
+VERSION=1.8.1
 
 clear
 
@@ -63,7 +63,7 @@ red=`tput setaf 1 2>/dev/null`
 reset=`tput sgr0 2>/dev/null`
 
 function ssl2 {
-echo "${red}==> ${reset} Checking SSLv2 (CVE-2011-1473)"
+echo "${red}==> ${reset} Checking SSLv2 (CVE-2011-1473) (CVE-2016-0800)"
 echo
 ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -ssl2 -connect "$TARGET" 2>/dev/null`"
 
