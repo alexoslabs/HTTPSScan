@@ -27,6 +27,8 @@
 # https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-0204
 # CVE-2015-4000
 # https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-4000
+# CVE-2016-0888
+# https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-0800
 # Forward Secrecy
 # http://blog.ivanristic.com/2013/06/ssl-labs-deploying-forward-secrecy.html
 # Patching the SSL/TLS on Nginx and Apache Webservers
