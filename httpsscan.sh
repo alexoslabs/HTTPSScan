@@ -40,6 +40,22 @@
 # - Selecionar somente uma vulnerabilidade para teste ou modo all
 #----------------------------------------------------------------------------------------------------------------------------------
 VERSION=1.8.1
+function Help {
+echo "-------------------------------"
+echo "Use: ./httpsscan IP PORT OP"
+echo -e "OP:
+	all, --all, a
+	ssl2, --ssl2
+	crime, --crime
+	rc4, --rc4
+	heartbleed, --heartbleed
+	poodle, --poodle
+	freak, --freak
+	null, --null
+	weak40, --weak40
+	weak56, --weak56
+	forward, --forward"
+}
 
 clear
 
@@ -54,6 +70,7 @@ echo "V. $VERSION by Alexos Core Labs                                           
 
 if [ $# -ne 3 ]; then
    echo Usage: $0 IP PORT OP
+   Help
    exit
 fi
 
@@ -63,6 +80,8 @@ TARGET=$HOST:$PORT
 OP=$3
 red=`tput setaf 1 2>/dev/null`
 reset=`tput sgr0 2>/dev/null`
+timeout_bin=`which timeout 2>/dev/null`
+
 
 function ssl2 {
 echo "${red}==> ${reset} Checking SSLv2 (CVE-2011-1473) (CVE-2016-0800)"
@@ -209,22 +228,7 @@ if [ "$ssl" -lt 5 ]; then
 fi
 }
 
-function Help {
-echo "-------------------------------"
-echo "Use: ./httpsscan IP PORT OP"
-echo -e "OP:
-	all, --all, a
-	ssl2, --ssl2
-	crime, --crime
-	rc4, --rc4
-	heartbleed, --heartbleed
-	poodle, --poodle
-	freak, --freak
-	null, --null
-	weak40, --weak40
-	weak56, --weak56
-	forward, --forward"
-}
+
 #----------------------------------------------------------------------------------------------------------------------------------
 
 online
