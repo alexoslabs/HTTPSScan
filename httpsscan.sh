@@ -39,7 +39,7 @@
 # - Help
 # - Selecionar somente uma vulnerabilidade para teste ou modo all
 #----------------------------------------------------------------------------------------------------------------------------------
-VERSION=1.8.1
+VERSION=1.8.2
 function Help {
 echo "-------------------------------"
 echo "Use: ./httpsscan IP PORT OP"
