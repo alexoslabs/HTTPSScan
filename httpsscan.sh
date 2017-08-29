@@ -310,7 +310,6 @@ ssl="`echo Q | openssl s_client -connect "$TARGET" 2>/dev/null | wc -l`"
 if [ "$ssl" -lt 5 ]; then
 	echo
         echo "Host $TARGET is unreachable." 
-        #exit -1
 fi
    done
 done
