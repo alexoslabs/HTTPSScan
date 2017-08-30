@@ -18,7 +18,7 @@ Cygwin dependencies:
 
 Usage:
 
-bash httpsscan.sh [target] [port] [option]
+bash httpsscan.sh [target_file] -p [ports] [option]
 
 Options:
 
