@@ -42,8 +42,9 @@
 VERSION=1.8.2
 function Help {
 echo "-------------------------------"
-echo "Use: ./httpsscan IPSRCFILE PORTSRCFILE OP"
-echo "Ex: $0 /tmp/hosts /tmp/ports ssl2"
+echo "Use: ./httpsscan TARGET_FILE -p TARGET_PORTs OP"
+echo "Ex: $0 /tmp/hosts -p 443 ssl2"
+echo "Ex: $0 /tmp/hosts -p 443,4443 ssl2"
 echo -e "OP:
 	all, --all, a
 	ssl2, --ssl2
@@ -69,25 +70,27 @@ echo "#+#    #+#    #+#        #+#    #+#        #+#    #+##+#    #+##+#    #+##
 echo "###    ###    ###        ###    ###        ########  ########  ######## ###     ######    #### "
 echo "V. $VERSION by Alexos Core Labs                                                       "
 
-if [ $# -ne 3 ]; then
-   echo Usage: $0 IPSRCFILE PORTSRCFILE OP
-   echo "Ex: $0 /tmp/hosts /tmp/ports ssl2"
+if [ $# -ne 4 ]; then
+   echo Usage: $0 TARGET_FILE -p TARGET_PORTs OP
+   echo "Ex: $0 /tmp/hosts -p 443 ssl2"
+   echo "Ex: $0 /tmp/hosts -p 443,4443 ssl2"
    Help
    exit
 fi
-
-OP=$3
+TARGET_PORTS="$3"; PORTS=`echo $TARGET_PORTS | sed -e 's/,/ /g'`
+OP=$4
 red=`tput setaf 1 2>/dev/null`
 green=`tput setaf 2 2>/dev/null`
 reset=`tput sgr0 2>/dev/null`
 timeout_bin=`which timeout 2>/dev/null`
 
 
+
 function ssl2() {
 echo
 echo "${red}==> ${reset} Checking SSLv2 (CVE-2011-1473) (CVE-2016-0800)"
 for HOST in `cat $1`; do
-   for PORT in `cat $2`; do
+   for PORT in ${PORTS[@]}; do
       TARGET=$HOST:$PORT
 
 ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -ssl2 -connect "$TARGET" 2>/dev/null`"
@@ -110,7 +113,7 @@ function crime {
 echo
 echo "${red}==> ${reset} Checking CRIME (CVE-2012-4929)"
 for HOST in `cat $1`; do
-   for PORT in `cat $2`; do
+   for PORT in ${PORTS[@]}; do
       TARGET=$HOST:$PORT
 
 ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -connect "$TARGET" 2>/dev/null`"
@@ -131,7 +134,7 @@ function rc4 {
 echo
 echo "${red}==> ${reset} Checking RC4 (CVE-2013-2566)"
 for HOST in `cat $1`; do
-   for PORT in `cat $2`; do
+   for PORT in ${PORTS[@]}; do
       TARGET=$HOST:$PORT
 
 ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -cipher RC4 -connect "$TARGET" 2>/dev/null`"
@@ -153,7 +156,7 @@ function heartbleed {
 echo
 echo "${red}==> ${reset} Checking Heartbleed (CVE-2014-0160)"
 for HOST in `cat $1`; do
-   for PORT in `cat $2`; do
+   for PORT in ${PORTS[@]}; do
       TARGET=$HOST:$PORT
 
 ssl="`echo "QUIT"|openssl s_client -connect "$TARGET" -tlsextdebug 2>&1|grep 'server extension "heartbeat" (id=15)' || echo safe 2>/dev/null`"
@@ -173,7 +176,7 @@ function poodle {
 echo
 echo "${red}==> ${reset} Checking Poodle (CVE-2014-3566)"
 for HOST in `cat $1`; do
-   for PORT in `cat $2`; do
+   for PORT in ${PORTS[@]}; do
       TARGET=$HOST:$PORT
 
 ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -ssl3 -connect "$TARGET" 2>/dev/null`"
@@ -196,7 +199,7 @@ function freak {
 echo
 echo "${red}==> ${reset} Checking FREAK (CVE-2015-0204)"
 for HOST in `cat $1`; do
-   for PORT in `cat $2`; do
+   for PORT in ${PORTS[@]}; do
       TARGET=$HOST:$PORT
 
 ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -cipher EXPORT -connect "$TARGET" 2>/dev/null`"
@@ -217,7 +220,7 @@ function null {
 echo
 echo "${red}==> ${reset}Checking NULL Cipher"
 for HOST in `cat $1`; do
-   for PORT in `cat $2`; do
+   for PORT in ${PORTS[@]}; do
       TARGET=$HOST:$PORT
 
 ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -cipher NULL -connect "$TARGET" 2>/dev/null`"
@@ -238,7 +241,7 @@ function weak40 {
 echo
 echo "${red}==> ${reset} Checking Weak Ciphers"
 for HOST in `cat $1`; do
-   for PORT in `cat $2`; do
+   for PORT in ${PORTS[@]}; do
       TARGET=$HOST:$PORT
 
 ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -cipher EXPORT40 -connect "$TARGET" 2>/dev/null`"
@@ -261,7 +264,7 @@ function weak56 {
 echo
 echo "${red}==> ${reset} Checking Weak Ciphers"
 for HOST in `cat $1`; do
-   for PORT in `cat $2`; do
+   for PORT in ${PORTS[@]}; do
       TARGET=$HOST:$PORT
 
 ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -cipher EXPORT56 -connect "$TARGET" 2>/dev/null`"
@@ -283,7 +286,7 @@ function forward {
 echo
 echo "${red}==> ${reset}Checking Forward Secrecy"
 for HOST in `cat $1`; do
-   for PORT in `cat $2`; do
+   for PORT in ${PORTS[@]}; do
       TARGET=$HOST:$PORT
 
 ssl="`echo 'Q' | ${timeout_bin:+$timeout_bin 5} openssl s_client -cipher 'ECDH:DH' -connect "$TARGET" 2>/dev/null`"
@@ -304,9 +307,9 @@ done
 
 function online() {
 for HOST in `cat $1`; do
-   for PORT in `cat $2`; do
+   for PORT in ${PORTS[@]}; do
       TARGET=$HOST:$PORT
-ssl="`echo Q | openssl s_client -connect "$TARGET" 2>/dev/null | wc -l`"
+ssl="`echo Q | ${timeout_bin:+$timeout_bin 5} openssl s_client -connect "$TARGET" 2>/dev/null | wc -l`"
 if [ "$ssl" -lt 5 ]; then
 	echo
         echo "Host $TARGET is unreachable." 
@@ -322,54 +325,54 @@ echo
 echo [*] Analyzing SSL/TLS Vulnerabilities...
 echo
 echo Generating Report...Please wait
-online $1 $2
+online $1
 
 
 # Nova chamada das funções:
-case $3 in
+case $4 in
 	"--help"|"help")
 		Help;;
 	"all"|"--all"|"a")
-		ssl2 $1 $2
-		crime $1 $2
-		rc4 $1 $2
-		heartbleed $1 $2
-		poodle $1 $2
-		freak $1 $2
-		null $1 $2
-		weak40 $1 $2
-		weak56 $1 $2
-		forward $1 $2 
+		ssl2 $1
+		crime $1
+		rc4 $1
+		heartbleed $1
+		poodle $1
+		freak $1
+		null $1
+		weak40 $1
+		weak56 $1
+		forward $1
 	;;
 	"ssl2"|"--ssl2")
-		ssl2 $1 $2
+		ssl2 $1
 	;;
 	"crime"|"--crime")
-                crime $1 $2
+                crime $1
 	;;
 	"rc4"|"--rc4")
-                rc4 $1 $2
+                rc4 $1
 	;;
  	"heartbleed"|"--heartbleed")
-            	heartbleed $1 $2
+            	heartbleed $1
 	;;
 	"poodle"|"--poodle")
-                poodle $1 $2
+                poodle $1
 	;;
 	"freak"|"--freak")
-                freak $1 $2
+                freak $1
 	;;
 	"null"|"--null")
-                null $1 $2
+                null $1
 	;;
 	"weak40"|"--weak40")
-                weak40 $1 $2
+                weak40 $1
 	;;
 	"weak56"|"--weak56")
-                weak56 $1 $2
+                weak56 $1
 	;;
 	"forward"|"--forward")
-                forward $1 $2
+                forward $1
 	;;
 	*)
 		echo -e "${red}Parameter invalid, check --help${reset}"
